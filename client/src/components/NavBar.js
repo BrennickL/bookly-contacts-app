@@ -13,9 +13,12 @@ class NavBar extends Component {
       return(
         <Menu.Menu position='right'>
           <Menu.Item
+            name='Contacts'
+            as={Link}
+            to='/contacts' />
+          <Menu.Item
             name='Logout'
-            onClick={() => dispatch(handleLogout(history))}
-          />
+            onClick={() => dispatch(handleLogout(history))} />
         </Menu.Menu>
       );
     } else {

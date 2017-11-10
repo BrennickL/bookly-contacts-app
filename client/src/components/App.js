@@ -9,6 +9,9 @@ import ProtectedRoute from './ProtectedRoute';
 import { Switch, Route } from 'react-router-dom';
 import FetchUser from './FetchUser';
 
+// Custom Components
+import Contacts from './contacts/Contacts'
+
 class App extends Component {
   render() {
     return (
@@ -20,6 +23,7 @@ class App extends Component {
             <Route exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
+            <ProtectedRoute exact path='/contacts' component={Contacts} />
             <Route component={NoMatch} />
           </Switch>
         </FetchUser>
