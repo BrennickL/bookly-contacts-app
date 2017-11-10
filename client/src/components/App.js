@@ -8,7 +8,7 @@ import Home from './Home';
 import ProtectedRoute from './ProtectedRoute';
 import { Switch, Route } from 'react-router-dom';
 import FetchUser from './FetchUser';
-
+import { Container } from 'semantic-ui-react'
 // Custom Components
 import Contacts from './contacts/Contacts'
 
@@ -19,6 +19,7 @@ class App extends Component {
         <NavBar />
         <Flash />
         <FetchUser>
+        <Container>
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
@@ -26,6 +27,7 @@ class App extends Component {
             <ProtectedRoute exact path='/contacts' component={Contacts} />
             <Route component={NoMatch} />
           </Switch>
+        </Container>
         </FetchUser>
       </div>
     );

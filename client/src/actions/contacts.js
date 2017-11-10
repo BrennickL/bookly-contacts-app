@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { setFlash } from './flash'
 
-export const indexContacts = ( page = 1, per_page = 10 ) => {
-  const pagination = `?page=${page}&per_page=${per_page}`
+export const indexContacts = ( letter = 'A', page = 1, per_page = 10 ) => {
+  const query = `?page=${page}&per_page=${per_page}&letter=${letter}`
   return (dispatch) => {
-    axios.get(`/api/contacts${pagination}`)
+    axios.get(`/api/contacts${query}`)
     .then( resp => {
       dispatch({
         type: 'INDEX_CONTACTS',
