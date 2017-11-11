@@ -1,22 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Grid } from 'semantic-ui-react'
-import styled from 'styled-components'
 import moment from 'moment'
+import Label from '../Label'
+import Addresses from '../addresses/Addresses'
 
-// Custom Styled Components
-const Label = styled.div`
-  display: inline-block;
-  font-weight: bold;
-  font-size: 1.2rem;
-  padding-right: 1rem;
-  :after {
-    content: ':'
-  }
-`
 
 class ShowContactInfo extends Component {
-  state = { last: '', first: '', gender: '', birthdate: '' }
+  state = { id: '', last: '', first: '', gender: '', birthdate: '' }
 
   componentDidMount = () => this.loadContactInfo(this.props)
   componentWillReceiveProps = ( props ) => this.loadContactInfo(props)
@@ -28,7 +19,7 @@ class ShowContactInfo extends Component {
   }
 
   render = () => {
-    const { last,first,gender,birthdate } = this.state
+    const { id, last,first,gender,birthdate } = this.state
     const birth = moment(birthdate)
     const diff = moment().diff(birth,'years')
     return (
@@ -56,6 +47,10 @@ class ShowContactInfo extends Component {
             <Label>Birthdate</Label>
             {birth.format('DD MMM YYYY')}
           </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row>
+          <Addresses contactId={id} />
         </Grid.Row>
       </Grid>
     )
