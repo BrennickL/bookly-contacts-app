@@ -25,3 +25,21 @@ export const resetContacts = () => {
     type: 'RESET_CONTACTS',
   }
 }
+
+export const deleteContact = ( contactId ) => {
+  return (dispatch) => {
+    axios.delete(`/api/contacts/${contactId}`)
+    .then( resp => {
+      dispatch({
+        type: 'DELETE_CONTACT',
+        data: contactId,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Content not Deleted!','error')
+      )
+    })
+  }
+}

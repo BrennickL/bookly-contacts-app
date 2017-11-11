@@ -5,6 +5,8 @@ import moment from 'moment'
 import ContactsMenu from './ContactsMenu'
 import Paginator from '../Paginator'
 import ShowContactModal from './ShowContactModal'
+import EditContactModal from './EditContactModal'
+import DeleteContactModal from './DeleteContactModal'
 
 // Actions
 import {
@@ -139,6 +141,18 @@ class Contacts extends Component {
         </Table>
         { showModal &&
           <ShowContactModal
+            toggleModal={this.toggleModal}
+            contactId={contactId} />
+        }
+
+        { editModal &&
+          <EditContactModal
+            toggleModal={this.toggleModal}
+            contactId={contactId} />
+        }
+
+        { deleteModal &&
+          <DeleteContactModal
             toggleModal={this.toggleModal}
             contactId={contactId} />
         }

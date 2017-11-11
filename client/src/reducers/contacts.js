@@ -11,10 +11,16 @@ const contacts = ( state = defaults, action ) => {
         data: action.data.data,
         pagination: action.data.pagination,
       }
-      case 'RESET_CONTACTS':
-        return {
-          ...defaults
-        }
+    case 'RESET_CONTACTS':
+      return {
+        ...defaults
+      }
+    case 'DELETE_CONTACT':
+      const contacts = state.data.filter( c => c.id !== action.data )
+      return {
+        ...state,
+        data: contacts,
+      }
     default:
       return state
   }
