@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Grid } from 'semantic-ui-react'
 import moment from 'moment'
-import Label from '../Label'
+import { Label } from '../Label'
 import Addresses from '../addresses/Addresses'
 
 

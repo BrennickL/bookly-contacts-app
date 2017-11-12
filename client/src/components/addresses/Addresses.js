@@ -32,7 +32,7 @@ class Addresses extends Component {
 
   render = () => {
     return (
-      <Segment>
+      <Segment basic>
         { this.displayAddresses() }
       </Segment>
     )

@@ -1,37 +1,36 @@
 import React from 'react'
-import { Segment } from 'semantic-ui-react'
-import Label from '../Label'
+import { Segment, Label } from 'semantic-ui-react'
+import { Title } from '../Label'
 import Data from '../Data'
 
 const Address = ({ address }) => (
-  <Segment.Group>
+  <Segment.Group padded>
+    <Label attached='top left'>
+      {address.type_of} Address
+    </Label>
     <Segment>
-      <Label>Type</Label>
-      <Data>{address.type_of}</Data>
-    </Segment>
-    <Segment>
-      <Label>Street</Label>
+      <Title>Street</Title>
       <Data>{address.street1}</Data>
     </Segment>
     <Segment>
-      <Label>Street</Label>
+      <Title>Street</Title>
       <Data>{address.street2}</Data>
     </Segment>
     <Segment.Group horizontal>
       <Segment>
-        <Label>City</Label>
+        <Title>City</Title>
         <Data>{address.city}</Data>
       </Segment>
       <Segment>
-        <Label>State</Label>
+        <Title>State</Title>
         <Data>{address.state}</Data>
       </Segment>
       <Segment>
-        <Label>ZipCode</Label>
+        <Title>ZipCode</Title>
         <Data>{address.zipcode}</Data>
       </Segment>
       <Segment>
-        <Label>Country</Label>
+        <Title>Country</Title>
         <Data>{address.country}</Data>
       </Segment>
     </Segment.Group>

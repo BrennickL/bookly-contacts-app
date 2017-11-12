@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
 // Custom Styled Components
-const Label = styled.div`
+export const Label = styled.div`
   display: inline-block;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
   padding-right: 1rem;
   :after {
     content: ':'
   }
 `
-export default Label
+export const Title = Label
