@@ -30,13 +30,32 @@ namespace :load do |loader_namespace|
           contact_id: contact.id
         )
       end
+
+      3.times do
+        Faker::Config.locale = 'en-US'
+        Phone.create(
+          type_of: ['Home','Work','Other'].sample,
+          country: Faker::PhoneNumber.subscriber_number(2),
+          prefix: Faker::PhoneNumber.exchange_code,
+          areacode: Faker::PhoneNumber.area_code,
+          number: Faker::PhoneNumber.subscriber_number(4),
+          contact_id: contact.id
+        )
+      end
     end
-    puts "Number of Contacts Loaded: #{Contact.all.count}"
-    puts "First Contact Record: #{Contact.first.last}"
+    
+    puts "Number of Phones Loaded: #{Phone.all.count}"
+    puts "First Phone:"
+    p Phone.first
     puts '-' * 20
+
     puts "Number of Addresses Loaded: #{Address.all.count}"
     puts "First Address:"
     p Address.first
+    puts '-' * 20
+
+    puts "Number of Contacts Loaded: #{Contact.all.count}"
+    puts "First Contact Record: #{Contact.first.last}"
     puts '-' * 20
   end
 

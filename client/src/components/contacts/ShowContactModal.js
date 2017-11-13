@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Modal, Button } from 'semantic-ui-react'
-import ShowContactInfo from './ShowContactInfo'
+import { Segment, Modal, Button } from 'semantic-ui-react'
+import ShowFullContactInfo from './ShowFullContactInfo'
 
 class ShowContactModal extends Component {
   state = { openModal: true }
@@ -16,7 +16,9 @@ class ShowContactModal extends Component {
         open={openModal}
         onClose={this.handleOnClose}>
         <Modal.Content>
-          <ShowContactInfo {...this.props} />
+          <Segment basic>
+            <ShowFullContactInfo {...this.props} />
+          </Segment>
         </Modal.Content>
         <Modal.Actions>
           <Button.Group size='tiny'>

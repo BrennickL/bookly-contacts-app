@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171111154900) do
+ActiveRecord::Schema.define(version: 20171113154551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,18 @@ ActiveRecord::Schema.define(version: 20171111154900) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
+  create_table "phones", force: :cascade do |t|
+    t.string "type_of", default: "Home", null: false
+    t.integer "country", default: 1, null: false
+    t.integer "prefix", null: false
+    t.integer "areacode", null: false
+    t.integer "number", null: false
+    t.bigint "contact_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_phones_on_contact_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -71,4 +83,5 @@ ActiveRecord::Schema.define(version: 20171111154900) do
 
   add_foreign_key "addresses", "contacts"
   add_foreign_key "contacts", "users"
+  add_foreign_key "phones", "contacts"
 end

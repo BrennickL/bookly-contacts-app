@@ -4,7 +4,7 @@ import { Title } from '../Label'
 import Data from '../Data'
 
 const Address = ({ address }) => (
-  <Segment.Group padded>
+  <Segment.Group>
     <Label attached='top left'>
       {address.type_of} Address
     </Label>

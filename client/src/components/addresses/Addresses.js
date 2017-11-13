@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Segment } from 'semantic-ui-react'
 import Address from './Address'
+import Ribbon from '../Ribbon'
 
 // Actions
 import {
@@ -14,8 +15,8 @@ class Addresses extends Component {
   componentDidMount = () => this.loadAddresses(this.props)
   componentWillReceiveProps = ( props ) => this.loadAddresses(props)
   loadAddresses = ( props ) => {
-    const { dispatch, contactId } = props
-    if( contactId ) {
+    const { dispatch, contactId, addresses } = props
+    if( addresses.length <= 0 && contactId ) {
       dispatch(indexAddresses(contactId))
     }
   }
@@ -25,14 +26,16 @@ class Addresses extends Component {
     const { addresses } = this.props
     if( addresses.length > 0 ) {
       return addresses.map( address => (
-        <Address address={address} />
+        <Address key={address.id} address={address} />
       ))
     }
   }
 
   render = () => {
     return (
-      <Segment basic>
+      <Segment>
+        <Ribbon content='Addresses' />
+
         { this.displayAddresses() }
       </Segment>
     )

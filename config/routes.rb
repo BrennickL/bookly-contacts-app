@@ -28,6 +28,12 @@
 #                          PATCH    /api/addresses/:id(.:format)                  api/addresses#update
 #                          PUT      /api/addresses/:id(.:format)                  api/addresses#update
 #                          DELETE   /api/addresses/:id(.:format)                  api/addresses#destroy
+#       api_contact_phones GET      /api/contacts/:contact_id/phones(.:format)    api/phones#index
+#                          POST     /api/contacts/:contact_id/phones(.:format)    api/phones#create
+#                api_phone GET      /api/phones/:id(.:format)                     api/phones#show
+#                          PATCH    /api/phones/:id(.:format)                     api/phones#update
+#                          PUT      /api/phones/:id(.:format)                     api/phones#update
+#                          DELETE   /api/phones/:id(.:format)                     api/phones#destroy
 #             api_contacts GET      /api/contacts(.:format)                       api/contacts#index
 #                          POST     /api/contacts(.:format)                       api/contacts#create
 #              api_contact GET      /api/contacts/:id(.:format)                   api/contacts#show
@@ -35,13 +41,14 @@
 #                          PUT      /api/contacts/:id(.:format)                   api/contacts#update
 #                          DELETE   /api/contacts/:id(.:format)                   api/contacts#destroy
 #                          GET      /*other(.:format)                             static#index
-#
+# 
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
     resources :contacts, shallow: true do
       resources :addresses
+      resources :phones
     end
   end
 
