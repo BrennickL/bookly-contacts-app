@@ -35,13 +35,13 @@
 #                          PUT      /api/contacts/:id(.:format)                   api/contacts#update
 #                          DELETE   /api/contacts/:id(.:format)                   api/contacts#destroy
 #                          GET      /*other(.:format)                             static#index
-# 
+#
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
     resources :contacts, shallow: true do
-      resources :addresses, shallow: true
+      resources :addresses
     end
   end
 

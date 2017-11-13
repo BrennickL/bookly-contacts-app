@@ -43,3 +43,21 @@ export const deleteContact = ( contactId ) => {
     })
   }
 }
+
+export const updateContact = ( contact ) => {
+  return (dispatch) => {
+    axios.patch(`/api/contacts/${contact.id}`, { contact })
+    .then( resp => {
+      dispatch({
+        type: 'UPDATE_CONTACT',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Contact not Updated!','error')
+      )
+    })
+  }
+}

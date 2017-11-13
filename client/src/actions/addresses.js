@@ -24,3 +24,57 @@ export const resetAddresses = () => {
     type: 'RESET_ADDRESSES',
   }
 }
+
+export const deleteAddress = ( addressId ) => {
+  return (dispatch) => {
+    axios.get(`/api/addresses/${addressId}`)
+    .then( resp => {
+      dispatch({
+        type: 'DELETE_ADDRESS',
+        data: addressId,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Address not Deleted!','error')
+      )
+    })
+  }
+}
+
+export const updateAddress = ( address ) => {
+  return (dispatch) => {
+    axios.patch(`/api/addresses/${address.id}`, { address } )
+    .then( resp => {
+      dispatch({
+        type: 'UPDATE_ADDRESS',
+        data: resp.data,
+        headers: resp.headers
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Address not Updated!','error')
+      )
+    })
+  }
+}
+
+export const createAddress = ( address ) => {
+  return (dispatch) => {
+    axios.post(`/api/addresses`, { address })
+    .then( resp => {
+      dispatch({
+        type: 'CREATE_ADDRESS',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Address not Created!','error')
+      )
+    })
+  }
+}
