@@ -24,3 +24,39 @@ export const resetPhones = () => {
     type: 'RESET_PHONES',
   }
 }
+
+export const updatePhone = ( phone ) => {
+  return (dispatch) => {
+    axios.patch(`/api/phones/${phone.id}`, { phone } )
+    .then( resp => {
+      dispatch({
+        type: 'UPDATE_PHONE',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Phone not Updated!','error')
+      )
+    })
+  }
+}
+
+export const deletePhone = ( phoneId ) => {
+  return (dispatch) => {
+    axios.delete(`/api/phones/${phoneId}`)
+    .then( resp => {
+      dispatch({
+        type: 'DELETE_PHONE',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Phone not Deleted!','error')
+      )
+    })
+  }
+}

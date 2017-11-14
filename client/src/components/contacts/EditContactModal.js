@@ -16,7 +16,7 @@ class ShowContactModal extends Component {
         open={openModal}
         onClose={this.handleOnClose}>
         <Modal.Content>
-          <EditContactInfo {...this.props} />
+          <EditContactInfo {...this.props} handleOnClose={this.handleOnClose} />
         </Modal.Content>
         <Modal.Actions>
           <Button.Group size='tiny'>
