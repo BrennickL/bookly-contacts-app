@@ -2,15 +2,15 @@
 #
 # Table name: phones
 #
-#  id          :integer          not null, primary key
-#  type_of     :string           default("Home"), not null
-#  country     :integer          default(1), not null
-#  prefix      :integer          not null
-#  areacode    :integer          not null
-#  number      :integer          not null
-#  contacts_id :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id         :integer          not null, primary key
+#  type_of    :string           default("Home"), not null
+#  country    :integer          default(1), not null
+#  prefix     :integer          not null
+#  areacode   :integer          not null
+#  number     :integer          not null
+#  contact_id :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Phone < ApplicationRecord

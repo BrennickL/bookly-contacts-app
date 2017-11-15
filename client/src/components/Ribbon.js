@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Label } from 'semantic-ui-react'
 
 const RibbonArea = styled(Label)`
-  margin: 1rem 0 !important;
+  margin: 0 0 !important;
 `
 
 const Ribbon = ({ color = 'blue', content }) => (

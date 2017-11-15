@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Dimmer, Loader } from 'semantic-ui-react'
 import PhoneForm from './PhoneForm'
 
 // Actions
@@ -37,6 +37,9 @@ class PhoneForms extends Component {
   render = () => {
     return (
       <Segment basic>
+        <Dimmer active={this.props.phones.length > 0 ? false : true }>
+          <Loader>Loading Phone Numbers</Loader>
+        </Dimmer>
         { this.displayPhoneForms() }
       </Segment>
     )

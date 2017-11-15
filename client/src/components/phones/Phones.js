@@ -10,6 +10,7 @@ import {
   resetPhones,
 } from '../../actions/phones'
 
+
 class Phones extends Component {
 
   componentDidMount = () => this.loadPhones(this.props)
@@ -33,7 +34,7 @@ class Phones extends Component {
 
   render = () => {
     return (
-      <Segment>
+      <Segment raised>
         <Ribbon content='Phone Numbers' />
 
         <Segment.Group>

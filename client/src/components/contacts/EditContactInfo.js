@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import ContactInfoForm from './ContactInfoForm'
 import AddressForms from '../addresses/AddressForms'
 import PhoneForms from '../phones/PhoneForms'
+import EmailForms from '../emails/EmailForms'
 
 // Custom Styled Components
 const Ribbon = styled(Label)`
@@ -20,6 +21,7 @@ class EditContactInfo extends Component {
   render = () => {
     return (
       <Segment raised>
+
         <Ribbon color='blue' ribbon>Personal Info</Ribbon>
         <ContactInfoForm {...this.props} />
 
@@ -28,6 +30,9 @@ class EditContactInfo extends Component {
 
         <Ribbon color='blue' ribbon>Phone Numbers</Ribbon>
         <PhoneForms {...this.props} />
+
+        <Ribbon color='blue' ribbon>Emails</Ribbon>
+        <EmailForms {...this.props} />
 
       </Segment>
     )

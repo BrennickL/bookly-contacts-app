@@ -26,4 +26,7 @@ class Contact < ApplicationRecord
   validates_associated :phones, allow_blank: true
   accepts_nested_attributes_for :addresses, allow_destroy: true
 
+  has_many :emails, dependent: :destroy
+  validates_associated :emails, allow_blank: true
+  accepts_nested_attributes_for :emails, allow_destroy: true
 end

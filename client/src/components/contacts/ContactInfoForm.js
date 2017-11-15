@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Form, Select, Input, Button } from 'semantic-ui-react'
+import {
+  Segment, Form, Select,
+  Input, Button
+} from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
+import FieldSet from '../FieldSet'
 import moment from 'moment'
 
 // DatePicker CSS
@@ -55,45 +59,47 @@ class ContactInfoForm extends Component {
     } = this.state
 
     return (
-      <Form onSubmit={this.handleOnSubmit}>
-        <Form.Group width='equal'>
-          <Form.Field
-            control={Input}
-            label='First Name'
-            id='first'
-            value={first}
-            onChange={this.handleOnChange} />
-          <Form.Field
-            control={Input}
-            label='Last Name'
-            id='last'
-            value={last}
-            onChange={this.handleOnChange} />
-          <Form.Field
-            control={Select}
-            options={this.genderOptions}
-            label='Gender'
-            id='gender'
-            value={gender}
-            onChange={this.handleSelectChange} />
-          <Form.Field>
-            <label>Birthday</label>
-            <DatePicker
-              selected={moment(birthdate)}
-              onChange={this.handleDateChange} />
-          </Form.Field>
-        </Form.Group>
-        { modified &&
-          <Segment basic textAlign='right'>
-            <Button
-              type='submit'
-              size='mini'
-              icon='write'
-              content='Write Changes'
-              color={ modified && 'green'}
-              disabled={ modified ? false : true } />
-          </Segment>
-        }
+      <Form onSubmit={this.handleOnSubmit} loading={ last ? false : true }>
+        <FieldSet disabled={ modified && 'disabled' }>
+          <Form.Group width='equal'>
+            <Form.Field
+              control={Input}
+              label='First Name'
+              id='first'
+              value={first}
+              onChange={this.handleOnChange} />
+            <Form.Field
+              control={Input}
+              label='Last Name'
+              id='last'
+              value={last}
+              onChange={this.handleOnChange} />
+            <Form.Field
+              control={Select}
+              options={this.genderOptions}
+              label='Gender'
+              id='gender'
+              value={gender}
+              onChange={this.handleSelectChange} />
+            <Form.Field>
+              <label>Birthday</label>
+              <DatePicker
+                selected={moment(birthdate)}
+                onChange={this.handleDateChange} />
+            </Form.Field>
+          </Form.Group>
+          { modified &&
+            <Segment basic textAlign='right'>
+              <Button
+                type='submit'
+                size='mini'
+                icon='write'
+                content='Write Changes'
+                color={ modified && 'green'}
+                disabled={ modified ? false : true } />
+            </Segment>
+          }
+        </FieldSet>
       </Form>
     )
   }

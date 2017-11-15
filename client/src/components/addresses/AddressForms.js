@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Dimmer, Loader } from 'semantic-ui-react'
 import AddressForm from './AddressForm'
 
 // Actions
@@ -33,6 +33,9 @@ class AddressForms extends Component {
   render = () => {
     return (
       <Segment basic>
+        <Dimmer active={this.props.addresses.length > 0 ? false : true }>
+          <Loader>Loading Addresses</Loader>
+        </Dimmer>
         { this.displayAddressForms() }
       </Segment>
     )

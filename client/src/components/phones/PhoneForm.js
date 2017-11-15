@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Form, Button, Input, Select } from 'semantic-ui-react'
+import { Form, Button, Input, Select } from 'semantic-ui-react'
 
 // Actions
 import {
@@ -35,7 +35,10 @@ class PhoneForm extends Component {
 
   handleOnChange = ({target: {id,value}}) => this.setState({ [id]: value, modified: true })
   handleSelectChange = (event,{id,value}) => this.setState({ [id]: value, modified: true })
-  handleDeletePhone = () => this.props.dispatch(deletePhone(this.state.id))
+  handleDeletePhone = () => {
+    this.props.dispatch(deletePhone(this.state.id))
+    this.setState({ modified: false })
+  }
   handleOnSubmit = ( event ) => {
     event.preventDefault()
     const { dispatch } = this.props
@@ -54,7 +57,7 @@ class PhoneForm extends Component {
 
     return (
       <Form onSubmit={this.handleOnSubmit}>
-        <Form.Group widths='equal' widths={16}>
+        <Form.Group widths={16}>
           <Form.Field
             control={Input}
             type='number'

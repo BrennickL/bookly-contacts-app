@@ -34,6 +34,12 @@
 #                          PATCH    /api/phones/:id(.:format)                     api/phones#update
 #                          PUT      /api/phones/:id(.:format)                     api/phones#update
 #                          DELETE   /api/phones/:id(.:format)                     api/phones#destroy
+#       api_contact_emails GET      /api/contacts/:contact_id/emails(.:format)    api/emails#index
+#                          POST     /api/contacts/:contact_id/emails(.:format)    api/emails#create
+#                api_email GET      /api/emails/:id(.:format)                     api/emails#show
+#                          PATCH    /api/emails/:id(.:format)                     api/emails#update
+#                          PUT      /api/emails/:id(.:format)                     api/emails#update
+#                          DELETE   /api/emails/:id(.:format)                     api/emails#destroy
 #             api_contacts GET      /api/contacts(.:format)                       api/contacts#index
 #                          POST     /api/contacts(.:format)                       api/contacts#create
 #              api_contact GET      /api/contacts/:id(.:format)                   api/contacts#show
@@ -49,6 +55,7 @@ Rails.application.routes.draw do
     resources :contacts, shallow: true do
       resources :addresses
       resources :phones
+      resources :emails
     end
   end
 

@@ -24,7 +24,7 @@ namespace :load do |loader_namespace|
           street2: Faker::Address.secondary_address,
           city: Faker::Address.city,
           state: Faker::Address.state,
-          zipcode: Faker::Address.zip,
+          zipcode: Faker::Address.zip.split('-')[0],
           country: Faker::Address.country,
           type_of: ['Home','Work','Other'].sample,
           contact_id: contact.id
@@ -42,8 +42,21 @@ namespace :load do |loader_namespace|
           contact_id: contact.id
         )
       end
+
+      3.times do
+        Email.create(
+          contact_id: contact.id,
+          type_of: ['Home','Work','Other'].sample,
+          address: Faker::Internet.email
+        )
+      end
     end
-    
+
+    puts "Number of Emails Loaded: #{Email.all.count}"
+    puts "First Contact Record:"
+    p Email.first
+    puts '-' * 20
+
     puts "Number of Phones Loaded: #{Phone.all.count}"
     puts "First Phone:"
     p Phone.first
@@ -57,6 +70,7 @@ namespace :load do |loader_namespace|
     puts "Number of Contacts Loaded: #{Contact.all.count}"
     puts "First Contact Record: #{Contact.first.last}"
     puts '-' * 20
+
   end
 
   desc "Easy loader for re-running all of the tasks at once"
