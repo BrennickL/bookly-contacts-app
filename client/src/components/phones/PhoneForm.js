@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Button, Input, Select } from 'semantic-ui-react'
+import DeleteButton from '../DeleteButton'
 
 // Actions
 import {
   updatePhone,
   deletePhone,
 } from '../../actions/phones'
+import {
+  createContactPhone,
+  deleteContactPhone,
+} from '../../actions/contacts'
 
 
 class PhoneForm extends Component {
@@ -22,7 +27,7 @@ class PhoneForm extends Component {
   loadPhoneInfo = ( props ) => {
     const { phone } = props
     const { id } = this.state
-    if( id !== phone.id ) {
+    if( phone && id !== phone.id ) {
       this.setState({ ...phone })
     }
   }
@@ -36,22 +41,35 @@ class PhoneForm extends Component {
   handleOnChange = ({target: {id,value}}) => this.setState({ [id]: value, modified: true })
   handleSelectChange = (event,{id,value}) => this.setState({ [id]: value, modified: true })
   handleDeletePhone = () => {
-    this.props.dispatch(deletePhone(this.state.id))
+    const { dispatch, toggleAddForm, reloadPhones } = this.props
+    const { id } = this.state
+    dispatch(deletePhone(id))
+    if( reloadPhones )
+      reloadPhones()
+    dispatch(deleteContactPhone(id))
+    if( toggleAddForm )
+      toggleAddForm('addContact')
     this.setState({ modified: false })
   }
   handleOnSubmit = ( event ) => {
     event.preventDefault()
-    const { dispatch } = this.props
+    const { dispatch, contactId, toggleAddForm } = this.props
     const phone = this.state
     delete phone.modified
-    dispatch(updatePhone(phone))
-    this.setState({ modified: false })
+    if( phone.id ) {
+      dispatch(updatePhone(phone))
+      this.setState({ modified: false })
+    } else {
+      phone.contact_id = contactId
+      dispatch(createContactPhone(phone))
+      toggleAddForm('addPhone')
+    }
   }
 
 
   render = () => {
     const {
-      country, prefix, areacode, number, type_of,
+      id, country, prefix, areacode, number, type_of,
       modified,
     } = this.state
 
@@ -59,54 +77,64 @@ class PhoneForm extends Component {
       <Form onSubmit={this.handleOnSubmit}>
         <Form.Group widths={16}>
           <Form.Field
+            required={false}
             control={Input}
-            type='number'
             width={2}
             id='country'
             value={country}
             onChange={this.handleOnChange} />
           <Form.Field
+            required
             control={Input}
-            type='number'
             width={2}
             id='prefix'
             value={prefix}
             onChange={this.handleOnChange} />
           <Form.Field
+            required
             control={Input}
-            type='number'
             width={2}
             id='areacode'
             value={areacode}
             onChange={this.handleOnChange} />
           <Form.Field
+            required
             control={Input}
-            type='number'
             width={2}
             id='number'
             value={number}
             onChange={this.handleOnChange} />
           <Form.Field
+            required
             control={Select}
             width={4}
             options={this.typeOfOptions}
             id='type_of'
             value={type_of}
             onChange={this.handleSelectChange} />
-          <Button.Group compact>
-            <Button
-              type='submit'
-              icon='write'
-              color={ modified ? 'green' : 'grey' }
-              content={ modified ? 'Update!!' : '' }
-              disabled={ modified ? false : true } />
-            <Button.Or />
-            <Button
-              type='button'
-              icon='delete'
-              color='red'
-              onClick={this.handleDeletePhone} />
-          </Button.Group>
+          <Form.Field
+            width={4}>
+            { id &&
+              <Button.Group size='mini'>
+                <Button
+                  type='submit'
+                  icon='write'
+                  color={ modified ? 'green' : 'grey' }
+                  content={ modified ? 'Update!!' : '' }
+                  disabled={ modified ? false : true } />
+                <Button.Or />
+                <DeleteButton onClick={this.handleDeletePhone} />
+              </Button.Group>
+            }
+            { !id && modified &&
+              <Button
+                size='mini'
+                type='submit'
+                icon='save'
+                color='green'
+                content='Create' />
+            }
+          </Form.Field>
         </Form.Group>
       </Form>
     )

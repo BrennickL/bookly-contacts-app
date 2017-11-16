@@ -10,6 +10,7 @@ import {
 } from '../../actions/emails'
 
 class EmailForms extends Component {
+  state = { reload: false }
 
   componentDidMount = () => this.loadEmails(this.props)
   componentWillReceiveProps = ( props ) => this.loadEmails(props)
@@ -21,6 +22,8 @@ class EmailForms extends Component {
     }
   }
 
+  reloadEmails = () => this.setState({ reload: !this.state.reload })
+
   displayEmailForms = () => {
     const { emails } = this.props
     if( emails.length > 0 ) {
@@ -29,16 +32,22 @@ class EmailForms extends Component {
           <EmailForm
             key={email.id}
             email={email}
+            reloadEmails={this.reloadEmails}
             {...this.props} />
         )
       })
     }
   }
 
+  isLoading = () => {
+    const { contactId, emails } = this.props
+    return contactId && emails.length <= 0
+  }
+
   render = () => {
     return (
       <Segment basic>
-        <Dimmer active={this.props.emails.length > 0 ? false : true }>
+        <Dimmer active={this.isLoading() ? true : false }>
           <Loader>Loading E-mails</Loader>
         </Dimmer>
         { this.displayEmailForms() }

@@ -13,6 +13,12 @@ const phones = ( state = defaults, action ) => {
         ...state,
         data: action.data,
       }
+    case 'DELETE_PHONE':
+      const phones = state.data.filter( p => p.id !== action.data )
+      return {
+        ...state,
+        data: phones,
+      }
     default:
       return state
   }

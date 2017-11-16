@@ -20,7 +20,7 @@ class Api::ContactsController < ApplicationController
     if contact.save
       render json: contact
     else
-      render_error contact
+      render_errors contact
     end
   end
 

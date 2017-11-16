@@ -5,7 +5,6 @@ import {
   Input, Button
 } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
-import FieldSet from '../FieldSet'
 import moment from 'moment'
 
 // DatePicker CSS
@@ -14,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 // Actions
 import {
   updateContact,
+  createContact,
 } from '../../actions/contacts'
 
 class ContactInfoForm extends Component {
@@ -29,10 +29,12 @@ class ContactInfoForm extends Component {
   ]
 
   componentDidMount = () => {
-    const { contacts, contactId } = this.props
+    const { contacts, contactId, contact } = this.props
     if( contacts.length > 0 && contactId ) {
-      const contact = contacts.find( c => c.id === contactId )
-      if( contact ){
+      const foundContact = contacts.find( c => c.id === contactId )
+      if( foundContact ){
+        this.setState({ ...foundContact })
+      } else if( contact ) {
         this.setState({ ...contact })
       }
     }
@@ -45,61 +47,81 @@ class ContactInfoForm extends Component {
 
   handleOnSubmit = ( event ) => {
     event.preventDefault()
-    const { dispatch } = this.props
+    const { dispatch, userId } = this.props
     const contactInfo = this.state
     delete contactInfo.modified
-    dispatch(updateContact(contactInfo))
+    if( contactInfo.id ) {
+      dispatch(updateContact(contactInfo))
+    } else {
+      contactInfo.user_id = userId
+      dispatch(createContact(contactInfo))
+    }
     this.resetModified()
+  }
+
+  isLoading = () => {
+    const { contactId } = this.props
+    const { last } = this.state
+    return contactId && !last
   }
 
   render = () => {
     const {
-      last, first, gender, birthdate,
+      id, last, first, gender, birthdate,
       modified,
     } = this.state
 
     return (
-      <Form onSubmit={this.handleOnSubmit} loading={ last ? false : true }>
-        <FieldSet disabled={ modified && 'disabled' }>
-          <Form.Group width='equal'>
-            <Form.Field
-              control={Input}
-              label='First Name'
-              id='first'
-              value={first}
-              onChange={this.handleOnChange} />
-            <Form.Field
-              control={Input}
-              label='Last Name'
-              id='last'
-              value={last}
-              onChange={this.handleOnChange} />
-            <Form.Field
-              control={Select}
-              options={this.genderOptions}
-              label='Gender'
-              id='gender'
-              value={gender}
-              onChange={this.handleSelectChange} />
-            <Form.Field>
-              <label>Birthday</label>
-              <DatePicker
-                selected={moment(birthdate)}
-                onChange={this.handleDateChange} />
-            </Form.Field>
-          </Form.Group>
-          { modified &&
-            <Segment basic textAlign='right'>
-              <Button
-                type='submit'
-                size='mini'
-                icon='write'
-                content='Write Changes'
-                color={ modified && 'green'}
-                disabled={ modified ? false : true } />
-            </Segment>
+      <Form onSubmit={this.handleOnSubmit} loading={ this.isLoading() ? true : false }>
+        <Form.Group width='equal'>
+          <Form.Field
+            required
+            control={Input}
+            label='First Name'
+            id='first'
+            value={first}
+            onChange={this.handleOnChange} />
+          <Form.Field
+            required
+            control={Input}
+            label='Last Name'
+            id='last'
+            value={last}
+            onChange={this.handleOnChange} />
+          <Form.Field
+            required
+            control={Select}
+            options={this.genderOptions}
+            label='Gender'
+            id='gender'
+            value={gender}
+            onChange={this.handleSelectChange} />
+          <Form.Field required>
+            <label>Birthday</label>
+            <DatePicker
+              selected={birthdate ? moment(birthdate) : null }
+              onChange={this.handleDateChange} />
+          </Form.Field>
+        </Form.Group>
+        <Segment basic textAlign='right'>
+          { id &&
+            <Button
+              type='submit'
+              size='mini'
+              icon='write'
+              content='Write Changes'
+              color={ modified ? 'green' : 'grey' }
+              disabled={ modified ? false : true } />
           }
-        </FieldSet>
+          { !id && modified &&
+            <Button
+              type='submit'
+              size='mini'
+              icon='save'
+              content='Create'
+              color='green' />
+          }
+        </Segment>
       </Form>
     )
   }
@@ -108,6 +130,7 @@ class ContactInfoForm extends Component {
 const mapStateToProps = ( state, props ) => {
   return {
     contacts: state.contacts.data,
+    userId: state.user.id,
   }
 }
 

@@ -13,6 +13,12 @@ const addresses = ( state = defaults, action ) => {
         ...state,
         data: action.data,
       }
+    case 'DELETE_ADDRESS':
+      const addresses = state.data.filter( a => a.id !== action.data )
+      return {
+        ...state,
+        data: addresses
+      }
     default:
       return state
   }

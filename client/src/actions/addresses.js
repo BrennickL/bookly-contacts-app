@@ -27,7 +27,7 @@ export const resetAddresses = () => {
 
 export const deleteAddress = ( addressId ) => {
   return (dispatch) => {
-    axios.get(`/api/addresses/${addressId}`)
+    axios.delete(`/api/addresses/${addressId}`)
     .then( resp => {
       dispatch({
         type: 'DELETE_ADDRESS',
@@ -56,24 +56,6 @@ export const updateAddress = ( address ) => {
     .catch( resp => {
       dispatch(
         setFlash('Address not Updated!','error')
-      )
-    })
-  }
-}
-
-export const createAddress = ( address ) => {
-  return (dispatch) => {
-    axios.post(`/api/addresses`, { address })
-    .then( resp => {
-      dispatch({
-        type: 'CREATE_ADDRESS',
-        data: resp.data,
-        headers: resp.headers,
-      })
-    })
-    .catch( resp => {
-      dispatch(
-        setFlash('Address not Created!','error')
       )
     })
   }

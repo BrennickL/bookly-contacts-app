@@ -49,7 +49,7 @@ export const deleteEmail = ( emailId ) => {
     .then( resp => {
       dispatch({
         type: 'DELETE_EMAIL',
-        data: resp.data,
+        data: emailId,
         headers: resp.headers,
       })
     })

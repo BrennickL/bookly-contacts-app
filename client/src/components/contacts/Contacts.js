@@ -7,6 +7,7 @@ import Paginator from '../Paginator'
 import ShowContactModal from './ShowContactModal'
 import EditContactModal from './EditContactModal'
 import DeleteContactModal from './DeleteContactModal'
+import NewContactModal from './NewContactModal'
 
 // Actions
 import {
@@ -18,6 +19,7 @@ class Contacts extends Component {
   defaults = {
     hasMore: false, showModal: false,
     editModal: false, deleteModal: false,
+    newContactModal: false,
     letterSelected: '', contactId: ''
   }
   state = { ...this.defaults }
@@ -31,7 +33,7 @@ class Contacts extends Component {
   }
   componentWillUnmount = () => this.props.dispatch(resetContacts())
 
-  toggleModal = ( modal, contactId ) => {
+  toggleModal = ( modal, contactId = '' ) => {
     this.setState({
       ...this.defaults,
       [modal]: !this.state[modal],
@@ -102,6 +104,7 @@ class Contacts extends Component {
       showModal,
       editModal,
       deleteModal,
+      newContactModal,
       contactId,
     } = this.state
 
@@ -132,6 +135,13 @@ class Contacts extends Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan={6}>
+                <Button.Group size='mini'>
+                  <Button
+                    type='button'
+                    color='green'
+                    content='New Contact'
+                    onClick={()=>this.toggleModal('newContactModal')} />
+                </Button.Group>
                 <Paginator
                   loadMore={this.loadMore}
                   pagination={this.props.pagination} />
@@ -155,6 +165,11 @@ class Contacts extends Component {
           <DeleteContactModal
             toggleModal={this.toggleModal}
             contactId={contactId} />
+        }
+
+        { newContactModal &&
+          <NewContactModal
+            toggleModal={this.toggleModal} />
         }
       </Segment>
     )

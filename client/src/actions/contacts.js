@@ -61,3 +61,96 @@ export const updateContact = ( contact ) => {
     })
   }
 }
+
+export const createContact = ( contact ) => {
+  return (dispatch) => {
+    axios.post(`/api/contacts`, { contact } )
+    .then( resp => {
+      dispatch({
+        type: 'CREATE_CONTACT',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Contact not Updated!','error')
+      )
+    })
+  }
+}
+
+export const createContactAddress = ( address ) => {
+  return (dispatch) => {
+    axios.post(`/api/contacts/${address.contact_id}/addresses`, { address } )
+    .then( resp => {
+      dispatch({
+        type: 'CREATE_CONTACT_ADDRESS',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Address not Created!','error')
+      )
+    })
+  }
+}
+
+export const createContactPhone = ( phone ) => {
+  return (dispatch) => {
+    axios.post(`/api/contacts/${phone.contact_id}/phones`, { phone } )
+    .then( resp => {
+      dispatch({
+        type: 'CREATE_CONTACT_PHONE',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Phone not Created!','error')
+      )
+    })
+  }
+}
+
+export const createContactEmail = ( email ) => {
+  return (dispatch) => {
+    axios.post(`/api/contacts/${email.contact_id}/emails`, { email } )
+    .then( resp => {
+      dispatch({
+        type: 'CREATE_CONTACT_EMAIL',
+        data: resp.data,
+        headers: resp.headers,
+      })
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Email not Created!','error')
+      )
+    })
+  }
+}
+
+export const deleteContactEmail = ( emailId ) => {
+  return {
+    type: 'DELETE_CONTACT_EMAIL',
+    data: emailId,
+  }
+}
+
+export const deleteContactPhone = ( phoneId ) => {
+  return {
+    type: 'DELETE_CONTACT_PHONE',
+    data: phoneId,
+  }
+}
+
+export const deleteContactAddress = ( addressId ) => {
+  return {
+    type: 'DELETE_CONTACT_ADDRESS',
+    data: addressId,
+  }
+}

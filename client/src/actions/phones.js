@@ -49,7 +49,7 @@ export const deletePhone = ( phoneId ) => {
     .then( resp => {
       dispatch({
         type: 'DELETE_PHONE',
-        data: resp.data,
+        data: phoneId,
         headers: resp.headers,
       })
     })

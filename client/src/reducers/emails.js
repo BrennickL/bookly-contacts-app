@@ -11,6 +11,12 @@ const emails = ( state = defaults, action ) => {
         ...state,
         data: action.data,
       }
+    case 'DELETE_EMAIL':
+      const emails = state.data.filter( e => e.id !== action.data )
+      return {
+        ...state,
+        data: emails,
+      }
     default:
       return state
   }
