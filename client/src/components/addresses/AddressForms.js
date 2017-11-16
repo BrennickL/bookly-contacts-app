@@ -11,14 +11,17 @@ import {
 } from '../../actions/addresses.js'
 
 class AddressForms extends Component {
-  state = { reload: false }
+  state = { loaded: false, reload: false }
 
   componentDidMount = () => this.loadAddresses(this.props)
   componentWillReceiveProps = ( props ) => this.loadAddresses(props)
   loadAddresses = ( props ) => {
     const { dispatch, contactId, addresses } = props
-    if( contactId && addresses.length <= 0 ) {
-      dispatch(indexAddresses(contactId))
+    const { loaded } = this.state
+    if( !loaded ) {
+      if( contactId && addresses.length <= 0 ) {
+        dispatch(indexAddresses(contactId,()=>this.setState({ loaded: true })))
+      }
     }
   }
   componentWillUnmount = () => this.props.dispatch(resetAddresses())
@@ -37,17 +40,13 @@ class AddressForms extends Component {
     }
   }
 
-  isLoading = () => {
-    const { contactId, addresses } = this.props
-    return contactId && addresses.length <= 0
-  }
-
   reloadAddresses = () => this.setState({ reload: !this.state.reload})
 
   render = () => {
+    const { loaded } = this.state
     return (
       <Segment basic>
-        <Dimmer active={ this.isLoading() ? true : false }>
+        <Dimmer active={ !loaded }>
           <Loader>Loading Addresses</Loader>
         </Dimmer>
         { this.displayAddressForms() }

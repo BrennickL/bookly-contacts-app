@@ -10,15 +10,18 @@ import {
 } from '../../actions/emails'
 
 class EmailForms extends Component {
-  state = { reload: false }
+  state = { loaded: false, reload: false }
 
   componentDidMount = () => this.loadEmails(this.props)
   componentWillReceiveProps = ( props ) => this.loadEmails(props)
   componentWillUnmount = () => this.props.dispatch(resetEmails())
   loadEmails = ( props ) => {
     const { dispatch, emails, contactId } = props
-    if( emails.length <= 0 && contactId ) {
-      dispatch(indexEmails(contactId))
+    const { loaded } = this.state
+    if( !loaded ) {
+      if( emails.length <= 0 && contactId ) {
+        dispatch(indexEmails(contactId,()=>this.setState({ loaded: true })))
+      }
     }
   }
 
@@ -39,15 +42,11 @@ class EmailForms extends Component {
     }
   }
 
-  isLoading = () => {
-    const { contactId, emails } = this.props
-    return contactId && emails.length <= 0
-  }
-
   render = () => {
+    const { loaded } = this.state
     return (
       <Segment basic>
-        <Dimmer active={this.isLoading() ? true : false }>
+        <Dimmer active={ !loaded }>
           <Loader>Loading E-mails</Loader>
         </Dimmer>
         { this.displayEmailForms() }

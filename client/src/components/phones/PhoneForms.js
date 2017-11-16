@@ -10,15 +10,18 @@ import {
 } from '../../actions/phones'
 
 class PhoneForms extends Component {
-  state = { reload: false }
+  state = { loaded: false, reload: false }
 
   componentDidMount = () => this.loadPhones(this.props)
   componentWillReceiveProps = ( props ) => this.loadPhones(props)
   componentWillUnmount = () => this.props.dispatch(resetPhones())
   loadPhones = ( props ) => {
     const { dispatch, phones, contactId } = props
-    if( phones.length <= 0 && contactId ) {
-      dispatch(indexPhones(contactId))
+    const { loaded } = this.state
+    if( !loaded ) {
+      if( phones.length <= 0 && contactId ) {
+        dispatch(indexPhones(contactId,()=>this.setState({ loaded: true })))
+      }
     }
   }
 
@@ -38,15 +41,11 @@ class PhoneForms extends Component {
     }
   }
 
-  isLoading = () => {
-    const { contactId, phones } = this.props
-    return contactId && phones.length <= 0
-  }
-
   render = () => {
+    const { loaded } = this.state
     return (
       <Segment basic>
-        <Dimmer active={this.isLoading() ? true : false }>
+        <Dimmer active={ !loaded }>
           <Loader>Loading Phone Numbers</Loader>
         </Dimmer>
         { this.displayPhoneForms() }

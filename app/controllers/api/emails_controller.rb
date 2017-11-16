@@ -2,7 +2,7 @@ class Api::EmailsController < ApplicationController
   before_action :set_email, only: [:show, :update, :destroy]
 
   def index
-    render json: Contact.find(params[:contact_id]).emails.all
+    render json: Contact.find(params[:contact_id]).emails.all.order(:type_of)
   end
 
   def show

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Table, Button } from 'semantic-ui-react'
+import { Segment, Table, Button, Header, Icon } from 'semantic-ui-react'
 import moment from 'moment'
 import ContactsMenu from './ContactsMenu'
 import Paginator from '../Paginator'
@@ -8,12 +8,19 @@ import ShowContactModal from './ShowContactModal'
 import EditContactModal from './EditContactModal'
 import DeleteContactModal from './DeleteContactModal'
 import NewContactModal from './NewContactModal'
+import styled from 'styled-components'
+
 
 // Actions
 import {
   indexContacts,
   resetContacts,
 } from '../../actions/contacts'
+
+const P = styled.p`
+  text-align: justify;
+  padding: 0 2rem;
+`
 
 class Contacts extends Component {
   defaults = {
@@ -112,6 +119,35 @@ class Contacts extends Component {
       <Segment basic>
         <Table celled>
           <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan={6}>
+                <Header as='h2' icon textAlign='center'>
+                  <Icon name='address book outline' size='huge'/>
+                  <Header.Content>
+                    Contacts App
+                  </Header.Content>
+                </Header>
+                <P>
+                  Welcome to the Contacts App! Here you will be able to
+                  organize your contacts and their associated information.
+                  To get started click the green button labled 'New Contact'
+                  and you'll be directed to a form where your contacts
+                  information can be uploded and stored. Once the initial
+                  contact information is loaded, you'll have the option to
+                  add their corresponding addresses, phone numbers, and
+                  emails
+                </P>
+                <P>
+                  To help organize your contacts use the alphabetical tabs
+                  located at the top of the table to filter the your contacts
+                  by last name, and, subsequently first name. Modifications
+                  to individual contacts can be made through use of the edit
+                  button and visualizing their entire record is done with the
+                  view button. Use the remove button with cation as it will
+                  delete the entire contact's record from the database.
+                </P>
+              </Table.HeaderCell>
+            </Table.Row>
             <Table.Row>
               <Table.HeaderCell colSpan={7}>
                 <ContactsMenu setQueryLetter={this.setQueryLetter} />

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { setFlash } from './flash'
 
-export const indexPhones = ( contactId ) => {
+export const indexPhones = ( contactId, callback = null ) => {
   return (dispatch) => {
     axios.get(`/api/contacts/${contactId}/phones`)
     .then( resp => {
@@ -10,6 +10,9 @@ export const indexPhones = ( contactId ) => {
         data: resp.data,
         headers: resp.headers,
       })
+      if( callback ) {
+        callback()
+      }
     })
     .catch( resp => {
       dispatch(

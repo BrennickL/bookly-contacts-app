@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Dimmer, Loader } from 'semantic-ui-react'
 import Ribbon from '../Ribbon'
 import PhoneInfo from './PhoneInfo'
 
@@ -12,14 +12,18 @@ import {
 
 
 class Phones extends Component {
+  state = { loaded: false }
 
   componentDidMount = () => this.loadPhones(this.props)
   componentWillReceiveProps = ( props ) => this.loadPhones(props)
   componentWillUnmount = () => this.props.dispatch(resetPhones())
   loadPhones = ( props ) => {
     const { dispatch, phones, contactId } = props
-    if( phones.length <= 0 && contactId ) {
-      dispatch(indexPhones(contactId))
+    const { loaded } = this.state
+    if( !loaded ) {
+      if( phones.length <= 0 && contactId ) {
+        dispatch(indexPhones(contactId,()=>this.setState({ loaded: true })))
+      }
     }
   }
 
@@ -33,13 +37,20 @@ class Phones extends Component {
   }
 
   render = () => {
+    const { loaded } = this.state
+    const { phones } = this.props
     return (
       <Segment raised>
+        <Dimmer active={ !loaded }>
+          <Loader />
+        </Dimmer>
         <Ribbon content='Phone Numbers' />
 
-        <Segment.Group>
-          { this.displayPhones() }
-        </Segment.Group>
+        { phones.length > 0 &&
+          <Segment.Group>
+            { this.displayPhones() }
+          </Segment.Group>
+        }
       </Segment>
     )
   }

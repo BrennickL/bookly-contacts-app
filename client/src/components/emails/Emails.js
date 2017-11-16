@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Dimmer, Loader } from 'semantic-ui-react'
 import Ribbon from '../Ribbon'
 import EmailInfo from './EmailInfo'
 
@@ -12,14 +12,18 @@ import {
 
 
 class Emails extends Component {
+  state = { loaded: false }
 
   componentDidMount = () => this.loadEmails(this.props)
   componentWillReceiveProps = ( props ) => this.loadEmails(props)
   componentWillUnmount = () => this.props.dispatch(resetEmails())
   loadEmails = ( props ) => {
     const { dispatch, emails, contactId } = props
-    if( emails.length <= 0 && contactId ) {
-      dispatch(indexEmails(contactId))
+    const { loaded } = this.state
+    if( !loaded ) {
+      if( emails.length <= 0 && contactId ) {
+        dispatch(indexEmails(contactId,()=>this.setState({ loaded: true })))
+      }
     }
   }
 
@@ -38,13 +42,20 @@ class Emails extends Component {
   }
 
   render = () => {
+    const { loaded } = this.state
+    const { emails } = this.props
     return (
       <Segment raised>
+        <Dimmer active={ !loaded }>
+          <Loader />
+        </Dimmer>
         <Ribbon content='Emails' />
-        
-        <Segment.Group>
-          { this.displayEmails() }
-        </Segment.Group>
+
+        { emails.length > 0 &&
+          <Segment.Group>
+            { this.displayEmails() }
+          </Segment.Group>
+        }
       </Segment>
     )
   }

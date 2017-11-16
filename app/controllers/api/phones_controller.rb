@@ -2,7 +2,7 @@ class Api::PhonesController < ApplicationController
   before_action :set_phone, only: [:show, :update, :destroy]
 
   def index
-    render json: Contact.find(params[:contact_id]).phones.all
+    render json: Contact.find(params[:contact_id]).phones.all.order(:type_of)
   end
 
   def show
