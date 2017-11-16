@@ -80,12 +80,14 @@ class NewContactForm extends Component {
             floated='right'
             icon={ addAddress ? 'minus' : contactId ? 'add' : 'minus' }
             onClick={()=>this.toggleAddForm('addAddress')} />
-          { this.displayAddresses() }
-          { addAddress && contactId &&
-            <AddressForm
-              contactId={contactId}
-              toggleAddForm={this.toggleAddForm} />
-          }
+          <Segment basic>
+            { this.displayAddresses() }
+            { addAddress && contactId &&
+              <AddressForm
+                contactId={contactId}
+                toggleAddForm={this.toggleAddForm} />
+            }
+          </Segment>
         </Segment>
 
         <Segment raised>
@@ -95,12 +97,14 @@ class NewContactForm extends Component {
             floated='right'
             icon={ addPhone ? 'minus' : contactId ? 'add' : 'minus' }
             onClick={()=>this.toggleAddForm('addPhone')} />
-          { this.displayPhones() }
-          { addPhone && contactId &&
-            <PhoneForm
-              contactId={contactId}
-              toggleAddForm={this.toggleAddForm} />
-          }
+          <Segment basic>
+            { this.displayPhones() }
+            { addPhone && contactId &&
+              <PhoneForm
+                contactId={contactId}
+                toggleAddForm={this.toggleAddForm} />
+            }
+          </Segment>
         </Segment>
 
         <Segment raised>
@@ -110,12 +114,14 @@ class NewContactForm extends Component {
             floated='right'
             icon={ addEmail ? 'minus' : contactId ? 'add' : 'minus' }
             onClick={()=>this.toggleAddForm('addEmail')} />
-          { this.displayEmails() }
-          { addEmail && contactId &&
-            <EmailForm
-              contactId={contactId}
-              toggleAddForm={this.toggleAddForm} />
-          }
+          <Segment basic>
+            { this.displayEmails() }
+            { addEmail && contactId &&
+              <EmailForm
+                contactId={contactId}
+                toggleAddForm={this.toggleAddForm} />
+            }
+          </Segment>
         </Segment>
       </Segment>
     )

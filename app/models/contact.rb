@@ -16,7 +16,7 @@ class Contact < ApplicationRecord
   belongs_to :user
 
   validates_presence_of :last, :first, :birthdate
-  validates :gender, inclusion: { in: ['Male', 'Female'] }
+  validates :gender, inclusion: { in: ['Male', 'Female', 'Other'] }
 
   has_many :addresses, dependent: :destroy
   validates_associated :addresses, allow_blank: true

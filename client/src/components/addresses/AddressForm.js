@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Segment, Form, Button, Input, Select } from 'semantic-ui-react'
+import TypesOf from '../TypesOf'
 
 // Actions
 import {
@@ -15,15 +16,9 @@ import {
 class AddressForm extends Component {
   defaults = {
     id: '', street1: '', street2: '', city: '', state: '', country: '',
-    zipcode: '', type_of: '', modified: false,
+    zipcode: '', type_of: 'Other', modified: false,
   }
   state = { ...this.defaults }
-
-  typeOfOptions = [
-    { key: 'Home', text: 'Home', value: 'Home' },
-    { key: 'Work', text: 'Work', value: 'Work' },
-    { key: 'Other', text: 'Other', value: 'Other' },
-  ]
 
   componentDidMount = () => this.loadAddressInfo(this.props)
   componentWillReceiveProps = ( props ) => this.loadAddressInfo(props)
@@ -115,10 +110,10 @@ class AddressForm extends Component {
           <Form.Field
             required
             control={Select}
-            options={this.typeOfOptions}
+            options={TypesOf.addresses}
             label='Type'
             id='type_of'
-            value={type_of}
+            value={ type_of ? type_of : 'Other' }
             onChange={this.handleSelectChange} />
         </Form.Group>
         <Segment basic textAlign='right'>

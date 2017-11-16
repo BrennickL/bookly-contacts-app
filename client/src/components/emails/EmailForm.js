@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Segment, Form, Button, Input, Select } from 'semantic-ui-react'
+import TypesOf from '../TypesOf'
 
 // Actions
 import {
@@ -15,15 +16,9 @@ import {
 
 class EmailForm extends Component {
   defaults = {
-    id: '', type_of: '', address: '', modified: false,
+    id: '', type_of: 'Other', address: '', modified: false,
   }
   state = { ...this.defaults }
-
-  typeOfOptions = [
-    { key: 'Home', text: 'Home', value: 'Home' },
-    { key: 'Work', text: 'Work', value: 'Work' },
-    { key: 'Other', text: 'Other', value: 'Other' },
-  ]
 
   componentDidMount = () => this.loadEmail(this.props)
   componentWillReceiveProps = ( props ) => this.loadEmail(props)
@@ -73,7 +68,7 @@ class EmailForm extends Component {
               width={7}
               control={Input}
               type='email'
-              label='Address'
+              placeholder='E-mail Address...'
               id='address'
               value={address}
               onChange={this.handleOnChange} />
@@ -81,35 +76,40 @@ class EmailForm extends Component {
               required
               width={6}
               control={Select}
-              options={this.typeOfOptions}
-              label='Type'
+              options={TypesOf.addresses}
+              placeholder='Type'
               id='type_of'
-              value={type_of}
+              value={type_of ? type_of : 'Other'}
               onChange={this.handleSelectChange} />
-            <Form.Field width={3}>
-              <Segment basic textAlign='center'>
-                { id &&
-                  <Button.Group size='mini'>
-                    <Button
-                      type='submit'
-                      disabled={ modified ? false : true }
-                      color={ modified ? 'green' : 'grey' }
-                      content={ modified ? 'Update' : '' } />
-                    <Button.Or />
-                    <Button
-                      type='button'
-                      color='red'
-                      icon='delete'
-                      onClick={this.handleDeleteEmail} />
-                  </Button.Group>
-                }
-                { !id && modified &&
+            <Form.Field
+              width={3}
+              as={Segment}
+              basic
+              compact
+              style={{ padding: '0' }}
+              textAlign='center'>
+              { id &&
+                <Button.Group size='tiny'>
                   <Button
                     type='submit'
-                    color='green'
-                    content='Create' />
-                }
-              </Segment>
+                    disabled={ modified ? false : true }
+                    color={ modified ? 'green' : 'grey' }
+                    content={ modified ? 'Update' : '' } />
+                  <Button.Or />
+                  <Button
+                    type='button'
+                    color='red'
+                    icon='delete'
+                    onClick={this.handleDeleteEmail} />
+                </Button.Group>
+              }
+              { !id && modified &&
+                <Button
+                  size='tiny'
+                  type='submit'
+                  color='green'
+                  content='Create' />
+              }
             </Form.Field>
           </Form.Group>
         </Form>

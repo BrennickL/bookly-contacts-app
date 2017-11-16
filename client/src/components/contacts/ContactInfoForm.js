@@ -6,6 +6,7 @@ import {
 } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
+import TypesOf from '../TypesOf'
 
 // DatePicker CSS
 import 'react-datepicker/dist/react-datepicker.css'
@@ -18,15 +19,10 @@ import {
 
 class ContactInfoForm extends Component {
   defaults = {
-    id: '', last: '', first: '', gender: '', birthdate: '',
+    id: '', last: '', first: '', gender: 'Other', birthdate: '',
     modified: false,
   }
   state = { ...this.defaults }
-
-  genderOptions = [
-    { key: 'male', text: 'Male', value: 'Male' },
-    { key: 'female', text: 'Female', value: 'Female' },
-  ]
 
   componentDidMount = () => {
     const { contacts, contactId, contact } = this.props
@@ -91,10 +87,10 @@ class ContactInfoForm extends Component {
           <Form.Field
             required
             control={Select}
-            options={this.genderOptions}
+            options={TypesOf.genders}
             label='Gender'
             id='gender'
-            value={gender}
+            value={gender ? gender : 'Other'}
             onChange={this.handleSelectChange} />
           <Form.Field required>
             <label>Birthday</label>

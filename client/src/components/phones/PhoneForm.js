@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Button, Input, Select } from 'semantic-ui-react'
+import { Segment, Form, Button, Input, Select } from 'semantic-ui-react'
 import DeleteButton from '../DeleteButton'
+import TypesOf from '../TypesOf'
 
 // Actions
 import {
@@ -16,7 +17,7 @@ import {
 
 class PhoneForm extends Component {
   defaults = {
-    id: '', country: '', prefix: '', areacode: '', number: '', type_of: '',
+    id: '', country: '', prefix: '', areacode: '', number: '', type_of: 'Other',
     modified: '',
   }
   state = { ...this.defaults }
@@ -31,12 +32,6 @@ class PhoneForm extends Component {
       this.setState({ ...phone })
     }
   }
-
-  typeOfOptions = [
-    { key: 'Home', text: 'Home', value: 'Home' },
-    { key: 'Work', text: 'Work', value: 'Work' },
-    { key: 'Other', text: 'Other', value: 'Other' },
-  ]
 
   handleOnChange = ({target: {id,value}}) => this.setState({ [id]: value, modified: true })
   handleSelectChange = (event,{id,value}) => this.setState({ [id]: value, modified: true })
@@ -108,32 +103,34 @@ class PhoneForm extends Component {
             required
             control={Select}
             width={4}
-            options={this.typeOfOptions}
+            options={TypesOf.addresses}
             id='type_of'
-            value={type_of}
+            value={type_of ? type_of : 'Other'}
             onChange={this.handleSelectChange} />
           <Form.Field
             width={4}>
-            { id &&
-              <Button.Group size='mini'>
+            <Segment basic textAlign='center' style={{ padding: '0'}}>
+              { id &&
+                <Button.Group size='tiny'>
+                  <Button
+                    type='submit'
+                    icon='write'
+                    color={ modified ? 'green' : 'grey' }
+                    content={ modified ? 'Update!!' : '' }
+                    disabled={ modified ? false : true } />
+                  <Button.Or />
+                  <DeleteButton onClick={this.handleDeletePhone} />
+                </Button.Group>
+              }
+              { !id && modified &&
                 <Button
+                  size='mini'
                   type='submit'
-                  icon='write'
-                  color={ modified ? 'green' : 'grey' }
-                  content={ modified ? 'Update!!' : '' }
-                  disabled={ modified ? false : true } />
-                <Button.Or />
-                <DeleteButton onClick={this.handleDeletePhone} />
-              </Button.Group>
-            }
-            { !id && modified &&
-              <Button
-                size='mini'
-                type='submit'
-                icon='save'
-                color='green'
-                content='Create' />
-            }
+                  icon='save'
+                  color='green'
+                  content='Create' />
+              }
+            </Segment>
           </Form.Field>
         </Form.Group>
       </Form>
