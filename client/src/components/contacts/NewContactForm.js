@@ -9,6 +9,11 @@ import AddressForm from '../addresses/AddressForm'
 import PhoneForm from '../phones/PhoneForm'
 import EmailForm from '../emails/EmailForm'
 
+// Actions
+import {
+  resetNewContact,
+} from '../../actions/contacts'
+
 class NewContactForm extends Component {
   defaults = {
     addContact: true,
@@ -17,6 +22,8 @@ class NewContactForm extends Component {
     addEmail: false,
   }
   state = { ...this.defaults }
+
+  componentWillUnmount = () => this.props.dispatch(resetNewContact())
 
   toggleAddForm = ( form ) => this.setState({ [form]: !this.state[form] })
 

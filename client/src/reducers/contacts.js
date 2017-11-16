@@ -95,6 +95,11 @@ const contacts = ( state = defaults, action ) => {
             emails,
           }
         }
+      case 'RESET_NEW_CONTACT':
+        return {
+          ...state,
+          contact: defaults.contact,
+        }
     default:
       return state
   }

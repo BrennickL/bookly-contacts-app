@@ -154,3 +154,9 @@ export const deleteContactAddress = ( addressId ) => {
     data: addressId,
   }
 }
+
+export const resetNewContact = () => {
+  return {
+    type: 'RESET_NEW_CONTACT',
+  }
+}
