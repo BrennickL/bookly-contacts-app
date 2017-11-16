@@ -27,6 +27,14 @@ const contacts = ( state = defaults, action ) => {
         ...state,
         data: contacts,
       }
+    case 'SHOW_CONTACT':
+      return {
+        ...state,
+        contact: {
+          ...state.contact,
+          data: action.data,
+        }
+      }
     case 'CREATE_CONTACT':
       return {
         ...state,
@@ -34,6 +42,16 @@ const contacts = ( state = defaults, action ) => {
           ...state.contact,
           data: action.data,
         },
+      }
+    case 'UPDATE_CONTACT':
+      const index =  state.data.findIndex( c => c.id === action.data.id )
+      return {
+        ...state,
+        data: [
+          ...state.data.slice(0,index),
+          action.data,
+          ...state.data.slice(index + 1),
+        ],
       }
     case 'CREATE_CONTACT_ADDRESS':
       return {
@@ -99,6 +117,30 @@ const contacts = ( state = defaults, action ) => {
         return {
           ...state,
           contact: defaults.contact,
+        }
+      case 'INDEX_CONTACT_ADDRESSES':
+        return {
+          ...state,
+          contact: {
+            ...state.contact,
+            addresses: action.data,
+          }
+        }
+      case 'INDEX_CONTACT_PHONES':
+        return {
+          ...state,
+          contact: {
+            ...state.contact,
+            phones: action.data,
+          }
+        }
+      case 'INDEX_CONTACT_EMAILS':
+        return {
+          ...state,
+          contact: {
+            ...state.contact,
+            emails: action.data,
+          }
         }
     default:
       return state

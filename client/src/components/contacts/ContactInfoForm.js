@@ -24,21 +24,24 @@ class ContactInfoForm extends Component {
   }
   state = { ...this.defaults }
 
-  componentDidMount = () => {
-    const { contacts, contactId, contact } = this.props
+  componentDidMount = () => this.loadContactInfo(this.props)
+  componentWillReceiveProps = (props) => this.loadContactInfo(props)
+  loadContactInfo = ( props ) => {
+    const { contacts, contactId, contact } = props
     if( contacts.length > 0 && contactId ) {
       const foundContact = contacts.find( c => c.id === contactId )
       if( foundContact ){
         this.setState({ ...foundContact })
-      } else if( contact ) {
-        this.setState({ ...contact })
       }
+    } else if( contact ) {
+      this.setState({ ...contact })
     }
   }
 
+
   handleOnChange = ({target: {id,value}}) => this.setState({ [id]: value, modified: true })
   handleSelectChange = (event, {id, value}) => this.setState({ [id]: value, modified: true })
-  handleDateChange = ( date ) => this.setState({ birthdate: date.format() })
+  handleDateChange = ( date ) => this.setState({ birthdate: date.format(), modified: true })
   resetModified = () => this.setState({ modified: false })
 
   handleOnSubmit = ( event ) => {

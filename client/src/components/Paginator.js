@@ -40,14 +40,13 @@ class Paginator extends Component {
   /**
    * Initializes the page/Menu.Item that will be displayed as active
    */
-  componentDidMount = () => {
-    // const { pagination } = this.props
-    // if( pagination && pagination.current_page )
-    //   this.setState({ activeItem: pagination.current_page })
-  }
+  componentDidMount = () => this.loadPagination(this.props)
 
-  componentWillReceiveProps = ( nextProps ) => {
-    const { pagination } = nextProps
+  componentWillReceiveProps = ( nextProps ) => this.loadPagination(nextProps)
+
+  // TODO: Add this change to main git file
+  loadPagination = ( props ) => {
+    const { pagination } = props
     if( pagination && pagination.current_page ) {
       this.setState({ activeItem: pagination.current_page })
     }
@@ -136,7 +135,7 @@ class Paginator extends Component {
    * GitHubGist: https://gist.github.com/keon/5380f81393ad98ec19e6.js
    */
   positions = (current, total) => {
-  	const pageLimit = 7;
+  	const pageLimit = 5;
   	let upperLimit, lowerLimit;
   	lowerLimit = upperLimit = Math.min(current, total);
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Button } from 'semantic-ui-react'
+import { Segment, Button, Dimmer, Loader } from 'semantic-ui-react'
 import Ribbon from '../Ribbon'
 
 // Forms
@@ -11,19 +11,42 @@ import EmailForm from '../emails/EmailForm'
 
 // Actions
 import {
+  showContact,
   resetNewContact,
+  indexContactAddresses,
+  indexContactPhones,
+  indexContactEmails,
 } from '../../actions/contacts'
+
 
 class NewContactForm extends Component {
   defaults = {
-    addContact: true,
-    addAddress: false,
-    addPhone: false,
-    addEmail: false,
+    addContact: true, contactsLoaded: false,
+    addAddress: false, addressesLoaded: false,
+    addPhone: false, phonesLoaded: false,
+    addEmail: false, emailsLoaded: false,
+    dispatchLoaders: true,
   }
   state = { ...this.defaults }
 
+  componentDidMount = () => this.loadContactInfo(this.props)
+  componentWillReceiveProps = ( props ) => this.loadContactInfo(props)
   componentWillUnmount = () => this.props.dispatch(resetNewContact())
+  loadContactInfo = ( props ) => {
+    const { dispatch, contactId, contact } = props
+    const { dispatchLoaders } = this.state
+    if( dispatchLoaders && contactId ) {
+      dispatch(showContact(contactId,
+        ()=>this.setState({contactsLoaded: true})))
+      dispatch(indexContactAddresses(contactId,
+        ()=>this.setState({addressesLoaded: true})))
+      dispatch(indexContactPhones(contactId,
+        ()=>this.setState({phonesLoaded: true})))
+      dispatch(indexContactEmails(contactId,
+        ()=>this.setState({emailsLoaded: true})))
+      this.setState({ dispatchLoaders: false })
+    }
+  }
 
   toggleAddForm = ( form ) => this.setState({ [form]: !this.state[form] })
 
@@ -67,20 +90,32 @@ class NewContactForm extends Component {
     const { contact } = this.props
     const contactId = contact.data.id
     const {
-      addAddress,
-      addPhone,
-      addEmail,
+      addAddress, addressesLoaded,
+      addPhone, phonesLoaded,
+      addEmail, emailsLoaded,
+      contactsLoaded,
     } = this.state
 
     return (
       <Segment>
+
         <Segment raised>
+          { contactId &&
+            <Dimmer active={ !contactsLoaded }>
+              <Loader />
+            </Dimmer>
+          }
           <Ribbon content='General Information' />
           <ContactInfoForm
             contact={contact.data} />
         </Segment>
 
         <Segment raised>
+          { contactId &&
+            <Dimmer active={ !addressesLoaded }>
+              <Loader />
+            </Dimmer>
+          }
           <Ribbon content='Addresses' />
           <Button
             type='button'
@@ -98,6 +133,11 @@ class NewContactForm extends Component {
         </Segment>
 
         <Segment raised>
+          { contactId &&
+            <Dimmer active={ !phonesLoaded }>
+              <Loader />
+            </Dimmer>
+          }
           <Ribbon content='Phone Numbers' />
           <Button
             type='button'
@@ -115,6 +155,11 @@ class NewContactForm extends Component {
         </Segment>
 
         <Segment raised>
+          { contactId &&
+            <Dimmer active={ !emailsLoaded }>
+              <Loader />
+            </Dimmer>
+          }
           <Ribbon content='E-mails' />
           <Button
             type='button'

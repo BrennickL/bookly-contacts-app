@@ -2,12 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Segment, Label } from 'semantic-ui-react'
 import styled from 'styled-components'
-
-// Forms
-import ContactInfoForm from './ContactInfoForm'
-import AddressForms from '../addresses/AddressForms'
-import PhoneForms from '../phones/PhoneForms'
-import EmailForms from '../emails/EmailForms'
+import NewContactForm from './NewContactForm'
 
 // Custom Styled Components
 const Ribbon = styled(Label)`
@@ -20,21 +15,7 @@ class EditContactInfo extends Component {
 
   render = () => {
     return (
-      <Segment raised>
-
-        <Ribbon color='blue' ribbon>Personal Info</Ribbon>
-        <ContactInfoForm {...this.props} />
-
-        <Ribbon color='blue' ribbon>Addresses</Ribbon>
-        <AddressForms {...this.props} />
-
-        <Ribbon color='blue' ribbon>Phone Numbers</Ribbon>
-        <PhoneForms {...this.props} />
-
-        <Ribbon color='blue' ribbon>Emails</Ribbon>
-        <EmailForms {...this.props} />
-
-      </Segment>
+      <NewContactForm {...this.props} />
     )
   }
 }

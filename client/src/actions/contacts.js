@@ -44,6 +44,26 @@ export const deleteContact = ( contactId ) => {
   }
 }
 
+export const showContact = ( contactId, callback = null ) => {
+  return (dispatch) => {
+    axios.get(`/api/contacts/${contactId}`)
+    .then( resp => {
+      dispatch({
+        type: 'SHOW_CONTACT',
+        data: resp.data,
+        headers: resp.headers,
+      })
+      if( callback )
+        callback()
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Contact not Loaded!','error')
+      )
+    })
+  }
+}
+
 export const updateContact = ( contact ) => {
   return (dispatch) => {
     axios.patch(`/api/contacts/${contact.id}`, { contact })
@@ -158,5 +178,67 @@ export const deleteContactAddress = ( addressId ) => {
 export const resetNewContact = () => {
   return {
     type: 'RESET_NEW_CONTACT',
+  }
+}
+
+
+export const indexContactAddresses = ( contactId, callback = null ) => {
+  return (dispatch) => {
+    axios.get(`/api/contacts/${contactId}/addresses`)
+    .then( resp => {
+      dispatch({
+        type: 'INDEX_CONTACT_ADDRESSES',
+        data: resp.data,
+        headers: resp.headers,
+      })
+      if( callback )
+        callback()
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Addresses not Indexed!','error')
+      )
+    })
+  }
+}
+
+export const indexContactPhones = ( contactId, callback = null ) => {
+  return (dispatch) => {
+    axios.get(`/api/contacts/${contactId}/phones`)
+    .then( resp => {
+      dispatch({
+        type: 'INDEX_CONTACT_PHONES',
+        data: resp.data,
+        headers: resp.headers,
+      })
+      if( callback ) {
+        callback()
+      }
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Phones not Indexed!','error')
+      )
+    })
+  }
+}
+
+export const indexContactEmails = ( contactId, callback = null ) => {
+  return (dispatch) => {
+    axios.get(`/api/contacts/${contactId}/emails`)
+    .then( resp => {
+      dispatch({
+        type: 'INDEX_CONTACT_EMAILS',
+        data: resp.data,
+        headers: resp.headers,
+      })
+      if( callback )
+        callback()
+    })
+    .catch( resp => {
+      dispatch(
+        setFlash('Emails not Indexed!','error')
+      )
+    })
   }
 }
