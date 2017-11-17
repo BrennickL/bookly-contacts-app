@@ -33,7 +33,7 @@ class NewContactForm extends Component {
   componentWillReceiveProps = ( props ) => this.loadContactInfo(props)
   componentWillUnmount = () => this.props.dispatch(resetNewContact())
   loadContactInfo = ( props ) => {
-    const { dispatch, contactId, contact } = props
+    const { dispatch, contactId } = props
     const { dispatchLoaders } = this.state
     if( dispatchLoaders && contactId ) {
       dispatch(showContact(contactId,
