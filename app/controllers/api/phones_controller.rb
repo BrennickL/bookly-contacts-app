@@ -1,4 +1,5 @@
 class Api::PhonesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_phone, only: [:show, :update, :destroy]
 
   def index
