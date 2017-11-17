@@ -1,9 +1,9 @@
 class Api::PhonesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_phone, only: [:show, :update, :destroy]
 
   def index
-    render json: Contact.find(params[:contact_id]).phones.all.order(:type_of)
+    render json: Contact.find(params[:contact_id])
+      .phones.all.order(:type_of)
   end
 
   def show
@@ -11,7 +11,8 @@ class Api::PhonesController < ApplicationController
   end
 
   def create
-    phone = Contact.find(params[:contact_id]).phones.build(phone_params)
+    phone = Contact.find(params[:contact_id])
+      .phones.build(phone_params)
     if phone.save
       render json: phone
     else

@@ -1,6 +1,4 @@
 class Api::AddressesController < ApplicationController
-
-  before_action :authenticate_user!
   before_action :set_address, only: [:show, :update, :destroy]
 
   def index
@@ -12,7 +10,8 @@ class Api::AddressesController < ApplicationController
   end
 
   def create
-    address = Contact.find(params[:contact_id]).addresses.build(address_params)
+    address = Contact.find(params[:contact_id])
+      .addresses.build(address_params)
     if address.save
       render json: address
     else

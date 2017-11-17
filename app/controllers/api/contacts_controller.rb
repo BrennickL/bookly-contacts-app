@@ -1,5 +1,4 @@
 class Api::ContactsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_contact, only: [:show, :update, :destroy]
 
   def index

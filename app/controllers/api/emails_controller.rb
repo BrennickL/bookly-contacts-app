@@ -1,9 +1,9 @@
 class Api::EmailsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_email, only: [:show, :update, :destroy]
 
   def index
-    render json: Contact.find(params[:contact_id]).emails.all.order(:type_of)
+    render json: Contact.find(params[:contact_id])
+      .emails.all.order(:type_of)
   end
 
   def show
@@ -11,7 +11,8 @@ class Api::EmailsController < ApplicationController
   end
 
   def create
-    email = Contact.find(params[:contact_id]).emails.build(email_params)
+    email = Contact.find(params[:contact_id])
+      .emails.build(email_params)
     if email.save
       render json: email
     else
