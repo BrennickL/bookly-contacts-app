@@ -87,14 +87,15 @@ class NewContactForm extends Component {
   }
 
   render = () => {
-    const { contact } = this.props
-    const contactId = contact.data.id
+    const { contact, contactId } = this.props
     const {
       addAddress, addressesLoaded,
       addPhone, phonesLoaded,
       addEmail, emailsLoaded,
       contactsLoaded,
     } = this.state
+    const activeId = contactId || contact.data.id
+    const hasContactId = activeId > 0
 
     return (
       <Segment>
@@ -120,13 +121,14 @@ class NewContactForm extends Component {
           <Button
             type='button'
             floated='right'
-            icon={ addAddress ? 'minus' : contactId ? 'add' : 'minus' }
+            disabled={!hasContactId}
+            icon='add'
             onClick={()=>this.toggleAddForm('addAddress')} />
           <Segment basic>
             { this.displayAddresses() }
-            { addAddress && contactId &&
+            { addAddress && hasContactId &&
               <AddressForm
-                contactId={contactId}
+                contactId={activeId}
                 toggleAddForm={this.toggleAddForm} />
             }
           </Segment>
@@ -142,13 +144,14 @@ class NewContactForm extends Component {
           <Button
             type='button'
             floated='right'
-            icon={ addPhone ? 'minus' : contactId ? 'add' : 'minus' }
+            disabled={!hasContactId}
+            icon='add'
             onClick={()=>this.toggleAddForm('addPhone')} />
           <Segment basic>
             { this.displayPhones() }
-            { addPhone && contactId &&
+            { addPhone && hasContactId &&
               <PhoneForm
-                contactId={contactId}
+                contactId={activeId}
                 toggleAddForm={this.toggleAddForm} />
             }
           </Segment>
@@ -164,13 +167,14 @@ class NewContactForm extends Component {
           <Button
             type='button'
             floated='right'
-            icon={ addEmail ? 'minus' : contactId ? 'add' : 'minus' }
+            disabled={!hasContactId}
+            icon='add'
             onClick={()=>this.toggleAddForm('addEmail')} />
           <Segment basic>
             { this.displayEmails() }
-            { addEmail && contactId &&
+            { addEmail && hasContactId &&
               <EmailForm
-                contactId={contactId}
+                contactId={activeId}
                 toggleAddForm={this.toggleAddForm} />
             }
           </Segment>
