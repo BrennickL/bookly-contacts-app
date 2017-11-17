@@ -2,7 +2,7 @@ class Api::ContactsController < ApplicationController
   before_action :set_contact, only: [:show, :update, :destroy]
 
   def index
-    contacts = Contact
+    contacts = current_user.contacts
       .all
       .where("last ILIKE '#{params[:letter]}%'")
       .order(:last, :first)
@@ -16,7 +16,7 @@ class Api::ContactsController < ApplicationController
   end
 
   def create
-    contact = Contact.create(contact_params)
+    contact = current_user.contacts.create(contact_params)
     if contact.save
       render json: contact
     else
