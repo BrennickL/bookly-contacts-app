@@ -47,7 +47,7 @@
 #                          PUT      /api/contacts/:id(.:format)                   api/contacts#update
 #                          DELETE   /api/contacts/:id(.:format)                   api/contacts#destroy
 #                          GET      /*other(.:format)                             static#index
-# 
+#
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'

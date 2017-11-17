@@ -56,6 +56,7 @@ GEM
     devise_token_auth (0.1.42)
       devise (> 3.5.2, <= 4.3)
       rails (< 6)
+    dot_env (0.0.3)
     erubi (1.7.0)
     faker (1.7.3)
       i18n (~> 0.5)
@@ -156,6 +157,7 @@ DEPENDENCIES
   annotate
   devise
   devise_token_auth
+  dot_env
   faker
   listen (>= 3.0.5, < 3.2)
   omniauth

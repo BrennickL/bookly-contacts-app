@@ -30,6 +30,7 @@ gem 'devise'
 gem 'devise_token_auth'
 gem 'will_paginate'
 gem 'faker'
+gem 'dot_env'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
