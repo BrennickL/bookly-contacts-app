@@ -108,7 +108,8 @@ class NewContactForm extends Component {
           }
           <Ribbon content='General Information' />
           <ContactInfoForm
-            contact={contact.data} />
+            contact={contact.data}
+            reloadContacts={this.props.reloadContacts}/>
         </Segment>
 
         <Segment raised>

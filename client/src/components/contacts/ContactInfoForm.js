@@ -46,7 +46,7 @@ class ContactInfoForm extends Component {
 
   handleOnSubmit = ( event ) => {
     event.preventDefault()
-    const { dispatch, userId } = this.props
+    const { dispatch, userId, reloadContacts } = this.props
     const contactInfo = this.state
     delete contactInfo.modified
     if( contactInfo.id ) {
@@ -54,6 +54,7 @@ class ContactInfoForm extends Component {
     } else {
       contactInfo.user_id = userId
       dispatch(createContact(userId, contactInfo))
+      reloadContacts(contactInfo.last.charAt(0).toUpperCase())
     }
     this.resetModified()
   }

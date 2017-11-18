@@ -59,11 +59,22 @@ class Paginator extends Component {
     const { activeItem } = this.state
     if( typeof activeItem === 'number' ) {
       const pageNums = this.calculatePages()
+      let right = null
       let components = []
-      // place the left menu chevron
-      components.push(this.leftChevron(pageNums.shift()))
-      // store the right menu chevron
-      const right = this.rightChevron(pageNums.pop())
+      if( pageNums.length > 0 ){
+        // place the left menu chevron
+        components.push(this.leftChevron(pageNums.shift()))
+      } else {
+        // Set all defaults to first page
+        components.push(this.leftChevron(1))
+      }
+      if( pageNums.length > 0 ) {
+        // store the right menu chevron
+        right = this.rightChevron(pageNums.pop())
+      } else {
+         // Set all defaults to first page
+        right = this.rightChevron(0)
+      }
       // insert the middle paginator menu items
       pageNums.forEach( pageNum => {
         components.push(

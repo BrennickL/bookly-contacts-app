@@ -99,6 +99,16 @@ class Contacts extends Component {
   }
 
   /**
+   * Reloader for Contacts being viewed after changes were made in the database.
+   * @param {Char} letterSelected - letter for querying, first of last name
+   */
+  reloadContacts = ( letterSelected = 'A' ) => {
+    const { dispatch, userId } = this.props
+    dispatch(indexContacts(userId,letterSelected,1))
+    this.setState({ letterSelected })
+  }
+
+  /**
    * Displays the Different Rows of the table. Each Row is a Contact with
    * it's corresponding functions.
    */
@@ -244,6 +254,7 @@ class Contacts extends Component {
 
         { newContactModal &&
           <NewContactModal
+            reloadContacts={this.reloadContacts}
             toggleModal={this.toggleModal} />
         }
       </Segment>

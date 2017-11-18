@@ -17,7 +17,9 @@ class NewContactModal extends Component {
         open={openModal}
         onClose={this.handleOnClose}>
         <Modal.Content>
-          <NewContactForm handleOnClose={this.handleOnClose} />
+          <NewContactForm
+            handleOnClose={this.handleOnClose}
+            reloadContacts={this.props.reloadContacts} />
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>

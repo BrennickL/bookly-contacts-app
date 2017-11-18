@@ -16,7 +16,7 @@ class Home extends Component {
     return(
       <Container>
         <Header as='h1' icon textAlign='center' style={{marginTop: '10%'}}>
-          <Icon name='address outline' size='huge' />
+          <Icon name='address card outline' size='huge' />
           <Header.Content>
             Welcome to the Contacts App!
           </Header.Content>
