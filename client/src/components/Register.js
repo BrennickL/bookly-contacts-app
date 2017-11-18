@@ -28,7 +28,7 @@ class Register extends Component {
     const { email, password, passwordConfirmation } = this.state;
 
     return(
-      <Segment basic>
+      <Segment basic style={{margin: '10% 25%', width: '50%'}}>
         <Header as='h1' textAlign='center'>Register Component</Header>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>

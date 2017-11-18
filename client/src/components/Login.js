@@ -23,7 +23,7 @@ class Login extends Component {
     const { email, password } = this.state;
 
     return(
-      <Segment basic>
+      <Segment basic style={{margin: '10% 25%', width: '50%'}}>
         <Header as='h1' textAlign='center'>Login</Header>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>

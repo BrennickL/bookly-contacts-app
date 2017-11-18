@@ -17,29 +17,52 @@ import {
   resetContacts,
 } from '../../actions/contacts'
 
+// Custom Styled Components
 const P = styled.p`
   text-align: justify;
   padding: 0 2rem;
 `
 
+/**
+ * Component respresenting a Contact Model or a single user contact object
+ */
 class Contacts extends Component {
+  /** @type {Hash} default parameters for the components 'state' */
   defaults = {
     hasMore: false, showModal: false,
     editModal: false, deleteModal: false,
     newContactModal: false,
     letterSelected: '', contactId: ''
   }
+  /** @type {Hash} inherits directly from {@link defaults} */
   state = { ...this.defaults }
 
+  /**
+   * Initiates the component upon mounting. Requests the Contact models from
+   * the remote server and stores them in redux. After obtaining the models
+   * the paginator state is set to true.
+   */
   componentDidMount = () => {
-    const { dispatch, contacts} = this.props
+    const { dispatch, contacts, userId } = this.props
     if( !contacts || contacts.length <= 0 ) {
-      dispatch(indexContacts())
+      // Request the Contact Models
+      dispatch(indexContacts(userId))
+      // Set the Paginator state once the models have been requested
       this.setState({ hasMore: true })
     }
   }
+
+  /**
+   * Clears all the Contact models from redux upon unmounting the component
+   */
   componentWillUnmount = () => this.props.dispatch(resetContacts())
 
+  /**
+   * Toggles the Modal states for creating, editing, viewing and deleting
+   * Contacts for the given user.
+   * @param {String} modal - the modal whose state will be toggled
+   * @param {Integer} contactId - ID for reseting the selected contact
+   */
   toggleModal = ( modal, contactId = '' ) => {
     this.setState({
       ...this.defaults,
@@ -48,24 +71,37 @@ class Contacts extends Component {
     })
   }
 
+  /**
+   * Setter for the alphabetical letter that will be used to query the users
+   * Contacts. Used only for filtering by last name!
+   * @param {Char} letterSelected - Single, first, letter of the contacts last name
+   */
   setQueryLetter = ( letterSelected ) => {
-    const { dispatch } = this.props
-    dispatch(indexContacts(letterSelected))
+    const { dispatch, userId } = this.props
+    dispatch(indexContacts(userId, letterSelected))
     this.setState({ letterSelected })
   }
 
+  /**
+   * Loader for Paginator component {@see Paginator}
+   * @param {Integer} page - Next Page number to be retrieved
+   */
   loadMore = ( page ) => {
-    const { dispatch, pagination } = this.props
+    const { dispatch, pagination, userId } = this.props
     const { hasMore, letterSelected } = this.state
     if( hasMore && pagination.total_pages ) {
       if( page <= pagination.total_pages ) {
-        dispatch(indexContacts(letterSelected,page))
+        dispatch(indexContacts(userId,letterSelected,page))
       } else {
         this.setState({ hasMore: false })
       }
     }
   }
 
+  /**
+   * Displays the Different Rows of the table. Each Row is a Contact with
+   * it's corresponding functions.
+   */
   displayTableRows = () => {
     const { contacts } = this.props
     if( contacts.length > 0 ) {
@@ -106,6 +142,9 @@ class Contacts extends Component {
     }
   }
 
+  /**
+   * Render the Contacts table
+   */
   render = () => {
     const {
       showModal,
@@ -212,8 +251,13 @@ class Contacts extends Component {
   }
 }
 
+/**
+ * Give access to the contacts information and pagination information
+ * stored in redux
+ */
 const mapStateToProps = ( state, props ) => {
   return {
+    userId: state.user.id,
     contacts: state.contacts.data,
     pagination: state.contacts.pagination,
   }

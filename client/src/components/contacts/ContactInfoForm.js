@@ -53,7 +53,7 @@ class ContactInfoForm extends Component {
       dispatch(updateContact(contactInfo))
     } else {
       contactInfo.user_id = userId
-      dispatch(createContact(contactInfo))
+      dispatch(createContact(userId, contactInfo))
     }
     this.resetModified()
   }

@@ -22,6 +22,8 @@
 #                          GET|POST /omniauth/:provider/callback(.:format)        devise_token_auth/omniauth_callbacks#redirect_callbacks
 #         omniauth_failure GET|POST /omniauth/failure(.:format)                   devise_token_auth/omniauth_callbacks#omniauth_failure
 #                          GET      /api/auth/:provider(.:format)                 redirect(301)
+#        api_user_contacts GET      /api/user/:user_id/contacts(.:format)         api/contacts#index
+#                          POST     /api/user/:user_id/contacts(.:format)         api/contacts#create
 #    api_contact_addresses GET      /api/contacts/:contact_id/addresses(.:format) api/addresses#index
 #                          POST     /api/contacts/:contact_id/addresses(.:format) api/addresses#create
 #              api_address GET      /api/addresses/:id(.:format)                  api/addresses#show
@@ -40,19 +42,20 @@
 #                          PATCH    /api/emails/:id(.:format)                     api/emails#update
 #                          PUT      /api/emails/:id(.:format)                     api/emails#update
 #                          DELETE   /api/emails/:id(.:format)                     api/emails#destroy
-#             api_contacts GET      /api/contacts(.:format)                       api/contacts#index
-#                          POST     /api/contacts(.:format)                       api/contacts#create
 #              api_contact GET      /api/contacts/:id(.:format)                   api/contacts#show
 #                          PATCH    /api/contacts/:id(.:format)                   api/contacts#update
 #                          PUT      /api/contacts/:id(.:format)                   api/contacts#update
 #                          DELETE   /api/contacts/:id(.:format)                   api/contacts#destroy
 #                          GET      /*other(.:format)                             static#index
-#
+# 
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
-    resources :contacts, shallow: true do
+    resources :user, shallow: true, only: [] do
+      resources :contacts, only: [:index, :create]
+    end
+    resources :contacts, shallow: true, except: [:index, :create] do
       resources :addresses
       resources :phones
       resources :emails

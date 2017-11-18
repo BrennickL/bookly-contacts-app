@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { setFlash } from './flash'
 
-export const indexContacts = ( letter = 'A', page = 1, per_page = 10 ) => {
+export const indexContacts = ( userId, letter = 'A', page = 1, per_page = 10 ) => {
   const query = `?page=${page}&per_page=${per_page}&letter=${letter}`
   return (dispatch) => {
-    axios.get(`/api/contacts${query}`)
+    axios.get(`/api/user/${userId}/contacts${query}`)
     .then( resp => {
       dispatch({
         type: 'INDEX_CONTACTS',
@@ -82,9 +82,9 @@ export const updateContact = ( contact ) => {
   }
 }
 
-export const createContact = ( contact ) => {
+export const createContact = ( userId, contact ) => {
   return (dispatch) => {
-    axios.post(`/api/contacts`, { contact } )
+    axios.post(`/api/user/${userId}/contacts`, { contact } )
     .then( resp => {
       dispatch({
         type: 'CREATE_CONTACT',
