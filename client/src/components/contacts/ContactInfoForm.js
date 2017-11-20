@@ -100,7 +100,11 @@ class ContactInfoForm extends Component {
             <label>Birthday</label>
             <DatePicker
               selected={birthdate ? moment(birthdate) : null }
-              onChange={this.handleDateChange} />
+              onChange={this.handleDateChange}
+              showYearDropdown
+              dateFormatCalendar='MMMM'
+              scrollabeYearDropdown
+              yearDropdownItemNumber={10} />
           </Form.Field>
         </Form.Group>
         <Segment basic textAlign='right'>
